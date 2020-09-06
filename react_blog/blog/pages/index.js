@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import Head from 'next/head'
 import { Row, Col, List } from 'antd'
 import { CalendarFilled, FolderFilled, FireFilled } from '@ant-design/icons'
+import '../static/style/pages/index.css'
 import Header from '../components/Header'
 import Author from '../components/Author'
-import '../static/style/pages/index.css'
 import Advert from '../components/Advert'
+import Footer from '../components/Footer'
+
 const Home = () => {
   const [mylist, setMylist] = useState(
     [
@@ -48,6 +50,7 @@ const Home = () => {
         </Col>
 
       </Row>
+      <Footer />
 
     </>
   )
