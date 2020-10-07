@@ -53,9 +53,9 @@ function AdminIndex() {
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
 
                         <div>
-                            <Route>
+                            <Route path='/index/' exact component={AddArticle} />
                                 
-                            </Route>
+                           
                         </div>
             </div>
                 </Content>
