@@ -4,6 +4,7 @@ import '../static/css/AddArticle.css'
 import { Row, Col, Input, Select, Button, DatePicker,message } from 'antd'
 import axios from 'axios'
 import servicePath from '../config/apiUrl'
+import { RetweetOutlined } from '@ant-design/icons'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -63,9 +64,15 @@ function AddArticle(props) {
             }
         )
     }
-    useEffect(() => {
+    useEffect(()=>{
         getTypeInfo()
-    }, [])
+        //获得文章ID
+        let tmpId = props.match.params.id
+        if(tmpId){
+            setArticleId(tmpId)
+            getArticleById(tmpId)
+        } 
+    },[])
     const selectTypeHandler = (value)=>{
         setSelectType(value)
     }
@@ -115,10 +122,47 @@ function AddArticle(props) {
     
                 }
             )
+        }else{
+            dataProps.id=articleId
+            axios({
+                method:'post',
+                data :dataProps,
+                url :servicePath.updateArticle,
+                withCredentials:true
+            }).then(
+                res=>{
+                    if(res.data.isScuccess){
+                        message.success('文章保存成功')
+                    }else{
+                        message.error('文章保存失败');
+                    }
+                }
+            )
         }
     }
+    const getArticleById = (id)=>{
+        axios(servicePath.getArticleById+id,{ 
+            withCredentials: true,
+            header:{ 'Access-Control-Allow-Origin':'*' }
+        }).then(
+            res=>{
+                let articleInfo= res.data.data[0]
+                setArticleTitle(res.data.data[0].title)
+                setArticleContent(res.data.data[0].article_content)
+                let html=marked(res.data.data[0].article_content)
+                setMarkdownContent(html)
+                setIntroducemd(res.data.data[0].introduce)
+                let tmpInt = marked(res.data.data[0].introduce)
+                setIntroducehtml(tmpInt)
+                setShowDate(res.data.data[0].addTime)
+                setSelectType(res.data.data[0].typeId)
+    
+            }
+        )
+    }
+    
     return (
-        <div>1111
+        <div>
             <Row gutter={5}>
                 <Col span={18}>
                     <Row gutter={10}>
@@ -150,6 +194,7 @@ function AddArticle(props) {
                                 className='markdown-content'
                                 rows={35}
                                 placeholder='文章内同'
+                                value={articleContent}
                                 onChange={changeContent}
                             />
                         </Col>
@@ -166,7 +211,7 @@ function AddArticle(props) {
 
                         </Col>
                         <Col span={24}>
-                            <TextArea rows={4} placeholder='文章简介' onChange={changeIntroduce}>
+                            <TextArea rows={4} placeholder='文章简介' value={introducemd} onChange={changeIntroduce}>
 
                             </TextArea>
                             <div className='introduce-html' dangerouslySetInnerHTML={{ __html: introducehtml }}></div>
