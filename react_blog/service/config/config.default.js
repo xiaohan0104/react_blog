@@ -45,10 +45,9 @@ module.exports = appInfo => {
 
     config.security = {
       　　　　csrf: {enable: false},
-      　　　　domainWhiteList: [ '*' ]
+      　　　　domainWhiteList: [ 'http://localhost:3000' ,'http://localhost:3001']
       　　};
       config.cors = {
-        origin: 'http://localhost:3000',
         credentials: true,  //允许Cook可以跨域
         allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
         };
