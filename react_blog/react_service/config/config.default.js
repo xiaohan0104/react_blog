@@ -30,7 +30,7 @@ module.exports = appInfo => {
       // port
       port: '3306',
       // username
-      user: 'react_blog',
+      user: 'root',
       // password
       password: 'root',
       // database

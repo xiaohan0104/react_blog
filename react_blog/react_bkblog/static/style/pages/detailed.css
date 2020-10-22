@@ -4,7 +4,7 @@
     background-color: #e1f0ff;
 }
 .detailed-title{
-    font-size: 1.8rem;
+    font-size: 1.8rem !important;
     text-align: center;
     padding: 1rem;
 }
